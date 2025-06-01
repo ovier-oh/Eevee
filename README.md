@@ -1,4 +1,4 @@
-# Eevee
+# Eevee (JAVA)
 # Programas de Práctica en Java
 
 Este repositorio contiene una serie de pequeños programas desarrollados en Java con fines educativos y de práctica. Cada uno de ellos aborda un problema diferente para reforzar habilidades en lógica de programación, estructuras básicas y programación orientada a objetos.
