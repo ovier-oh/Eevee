@@ -17,6 +17,7 @@ public class TicTacToe{
     public static void greetings(){
         System.out.println("**Welcome to TicTacToe Game**");
         System.out.println("[Info] The First participant in create 3 in line Wins!!");
+
     }
 
     public static void matix_tictactoe(){
@@ -29,7 +30,7 @@ public class TicTacToe{
             }
             System.out.println();
             if(i < matrixtoe.length - 1){
-                System.out.println("-- -- --");
+                System.out.println("--+--+--");
             }
         }
     }
@@ -63,40 +64,88 @@ public class TicTacToe{
         }
     }
 
+    public static boolean position_loc(int[] position, String player){
+        int row = position[0]; 
+        int col = position[1]; 
+        
+        if(!matrixtoe[row][col].equals("X") && !matrixtoe[row][col].equals("O")){
+            matrixtoe[row][col]=player; 
+            return checkwinner(row, col, player);
+        }
+        else{
+            System.out.println("[Error] Esa posicion ya esta ocupada.");
+            return false;
+        }
+    }
+
+    public static boolean checkwinner(int row, int col, String player){
+        // Verificar fila
+        if (matrixtoe[row][0].equals(player) && matrixtoe[row][1].equals(player) && matrixtoe[row][2].equals(player)) {
+            return true;
+        }
+        // Verificar columna
+        if (matrixtoe[0][col].equals(player) && matrixtoe[1][col].equals(player) && matrixtoe[2][col].equals(player)) {
+            return true;
+        }
+        // Verificar diagonal principal
+        if (row == col) {
+            if (matrixtoe[0][0].equals(player) && matrixtoe[1][1].equals(player) && matrixtoe[2][2].equals(player)) {
+                return true;
+            }
+        }
+        // Verificar diagonal secundaria
+        if (row + col == 2) {
+            if (matrixtoe[0][2].equals(player) && matrixtoe[1][1].equals(player) && matrixtoe[2][0].equals(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isBoardFull(){
+        for (int i = 0; i < matrixtoe.length; i ++){
+            for(int j = 0; j < matrixtoe[i].length; j++){
+                if (!matrixtoe[i][j].equals("X") && !matrixtoe[i][j].equals("O")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public static void game_turns(String player1, String player2){
         while(true){
+            //Section for change player 
             if (currentPlayer.equals(player1)){
                 currentPlayer = player2; 
             }
             else{
                 currentPlayer = player1;
             }
+            
 
             System.out.println("[Info] Please look the game board, here one number is one position");
             matix_tictactoe();
             System.out.println("[Info] Player: " + currentPlayer + " You only need write the number of position that you want :D");
             String turn_position = input.nextLine(); 
             int[] position = position_select(turn_position);
+
             if(position != null){
-                position_loc(position, currentPlayer);
-                ClearScreen();
+                boolean hasWon = position_loc(position, currentPlayer);
+                ClearScreen();          
                 matix_tictactoe();
+
+                if(hasWon){
+                    System.out.println("[Info] Game Over, Winner is: " + currentPlayer + "!");
+                    break;
+                }
+                else if(isBoardFull()){
+                    System.out.println("[Info] Game Over, Tie no player Won!");
+                }
             }
             else{
                 System.out.println("[Error] Posicion Invalida!");
             }
-        }
-    }
-
-    public static void position_loc(int[] position, String player){
-        int row = position[0]; 
-        int col = position[1]; 
-
-        if(!matrixtoe[row][col].equals("X") && !matrixtoe[row][col].equals("O")){
-            matrixtoe[row][col]=player; 
-        }
-        else{
-            System.out.println("[Error] Esa posicion ya esta ocupada.");
         }
     }
 
@@ -107,7 +156,7 @@ public class TicTacToe{
         String [] players = players();
         String player1 = players[0];
         String player2 = players[1];
-        System.out.println("You are: " + player1 + " Other player is:" + player2);
+        System.out.println("You are: " + player1 +" | Other player is:" + player2);
         input.nextLine();
         ClearScreen();
         game_turns(player1, player2);
