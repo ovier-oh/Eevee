@@ -6,6 +6,7 @@ public class TicTacToe{
     public static Scanner input = new Scanner(System.in);
     public static String player_1 = "";
     public static String player_2 = "";
+    public static String currentPlayer = "";
     public static boolean loop = true;
 
     public static void ClearScreen(){
@@ -16,7 +17,6 @@ public class TicTacToe{
     public static void greetings(){
         System.out.println("**Welcome to TicTacToe Game**");
         System.out.println("[Info] The First participant in create 3 in line Wins!!");
-        System.out.println("[Info] You can choose one player [O] or [X]");
     }
 
     public static void matix_tictactoe(){
@@ -63,15 +63,18 @@ public class TicTacToe{
         }
     }
 
-    public static void game_turns(String player1, String currentPlayer){
+    public static void game_turns(String player1, String player2){
         while(true){
-            
-
-
+            if (currentPlayer.equals(player1)){
+                currentPlayer = player2; 
+            }
+            else{
+                currentPlayer = player1;
+            }
 
             System.out.println("[Info] Please look the game board, here one number is one position");
             matix_tictactoe();
-            System.out.println("[Info] You only need write the number of position that you want :D");
+            System.out.println("[Info] Player: " + currentPlayer + " You only need write the number of position that you want :D");
             String turn_position = input.nextLine(); 
             int[] position = position_select(turn_position);
             if(position != null){
